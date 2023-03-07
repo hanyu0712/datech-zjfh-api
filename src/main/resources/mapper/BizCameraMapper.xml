@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.datech.zjfh.api.mapper.BizCameraMapper">
+
+    <insert id="saveBatchXml" parameterType="com.datech.zjfh.api.entity.BizCameraEntity">
+        insert into biz_camera (code, name, device_ip, status, vendor_type, create_time, subscribe_id, subs_enable, domain_code, nvr_code, ivs_id)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.code}, #{item.name}, #{item.deviceIp}, #{item.status}, #{item.vendorType}, #{item.createTime},
+             #{item.subscribeId}, #{item.subsEnable}, #{item.domainCode}, #{item.nvrCode}, #{item.ivsId})
+        </foreach>
+        ON DUPLICATE key update
+        code=values(code)
+    </insert>
+
+</mapper>
+

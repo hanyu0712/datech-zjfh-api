@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.datech.zjfh.api.mapper.SysUserMapper">
+
+    <!-- 根据用户名查询 -->
+    <select id="getUserByName" resultType="com.datech.zjfh.api.entity.SysUserEntity">
+        select * from sys_user where username = #{username} and del_flag = 0
+    </select>
+
+
+    <!-- 分页获取数据 -->
+    <select id="pageList" resultType="com.datech.zjfh.api.entity.SysUserEntity"
+    parameterType="com.datech.zjfh.api.query.SysUserQuery">
+        select * from sys_user where del_flag=0 ${permissionSql}
+        <include refid="searchCondition"></include>
+    </select>
+    
+    <sql id="searchCondition">
+      <if test="query!=null and query.username != null" >
+        and username like CONCAT(#{query.username},'%')
+      </if>
+      <!--<if test="query!=null and query.realname != null" >
+        and realname like CONCAT(#{query.realname},'%')
+      </if>
+      <if test="query!=null and query.orgCode != null" >
+        and org_code = #{query.orgCode}
+      </if>
+      <if test="query!=null and query.tenantId != null" >
+        and tenant_id = #{query.tenantId}
+      </if>
+      <if test="query!=null and query.sex != null" >
+        and sex = #{query.sex}
+      </if>
+      <if test="query!=null and query.phone != null" >
+        and phone like CONCAT(#{query.phone},'%')
+      </if>
+      <if test="query!=null and query.status != null" >
+        and status = #{query.status}
+      </if>-->
+    </sql>
+    
+    <!-- 根据角色Id查询 -->
+	<!--<select id="getUserByRoleId" resultType="cn.com.bjev.v2x.consumer.system.entity.SysUserEntity">
+		select * from sys_user where del_flag = 0 and id in (select user_id from sys_user_role where role_id=#{roleId})
+		<if test="username!=null and username!=''">
+			and username = #{username}
+		</if>
+	</select>
+	
+	<select id="getOrgListByUserIds" resultType="cn.com.bjev.v2x.consumer.system.vo.SysUserOrgVO">
+        select b.*,a.org_name from sys_org a, sys_user_org b where a.id=b.org_id and a.del_flag=0 
+        <if test="userIds != null and userIds.size>0">
+			AND b.user_id IN 
+			<foreach collection="userIds" item="userId" open="(" separator="," close=")">
+				#{userId}
+			</foreach>
+		</if>
+    </select>-->
+
+</mapper>
