@@ -13,6 +13,7 @@ public class BizRadarVo implements Serializable {
     private Integer type;
     private String ip;
     private String account;
+    private String password;
     private String cameraIp;
     private String lineName;
     private String ivsName;

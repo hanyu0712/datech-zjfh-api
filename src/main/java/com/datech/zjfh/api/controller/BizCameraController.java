@@ -60,7 +60,7 @@ public class BizCameraController {
 
     @GetMapping("/camera/tree")
     public Result<Object> tree(Integer lineId) {
-        log.info("------------ camera org tree in, lineId2 : {}---------", lineId);
+        log.info("------------ camera org tree in, lineId : {}---------", lineId);
         try {
             SysOrgTreeVo root = sysOrgService.tree();
             List<Integer> ivsIdList = null;

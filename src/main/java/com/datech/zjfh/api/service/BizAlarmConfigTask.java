@@ -2,16 +2,11 @@ package com.datech.zjfh.api.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.datech.zjfh.api.common.ivs.Ptzcontrol;
 import com.datech.zjfh.api.entity.BizAlarmConfigEntity;
 import com.datech.zjfh.api.entity.BizCameraEntity;
-import com.datech.zjfh.api.entity.BizIvsEntity;
-import com.datech.zjfh.api.entity.BizPresetEntity;
-import com.datech.zjfh.api.util.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -30,20 +25,10 @@ public class BizAlarmConfigTask {
     @Resource
     private BizCameraServiceImpl bizCameraService;
     @Resource
-    private BizPresetServiceImpl bizPresetService;
-    @Resource
     private BizIvsServiceImpl bizIvsService;
-    @Autowired
-    private RedisUtil redisUtil;
 
     @Scheduled(cron = "1 * * * * ?")
     public void configureTasks() {
-        BizPresetEntity preset = bizPresetService.getById(33);
-        if (preset != null) {
-            BizIvsEntity ivs = bizIvsService.getById(1);
-            String ptzResult = Ptzcontrol.sendRequest("https://" + ivs.getIp() + ":18531", ivs.getToken(), preset.getCameraCode(), preset.getPresetIndex());
-            log.info("调用云台控制结果：{}", ptzResult);
-        }
 
         String nowTime = getNowTime();
         log.info("====BizAlarmConfigTask, nowTime:{}", nowTime);

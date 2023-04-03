@@ -10,7 +10,6 @@
 package com.datech.zjfh.api.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.datech.zjfh.api.common.bean.LoginUser;
@@ -23,7 +22,6 @@ import com.datech.zjfh.api.util.BeanCopierUtil;
 import com.datech.zjfh.api.util.LogUtil;
 import com.datech.zjfh.api.util.LoginUtil;
 import com.datech.zjfh.api.util.RedisUtil;
-import com.datech.zjfh.api.vo.BizCameraVo;
 import com.datech.zjfh.api.vo.BizIvsVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
@@ -35,7 +33,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/biz")
@@ -110,11 +107,11 @@ public class BizIvsController {
                 return Result.error("IVS连接失败");
             }
             entity.setToken(token); //订阅告警需要token
-            entity.setOnLine(0);
+            entity.setOnLine(1);
             bizIvsService.save(entity);
             LoginUser loginUser = LoginUtil.getLoginUser(request.getHeader("token"), redisUtil);
             logUtil.addLog("IVS管理", "IVS[" + entity.getName() + "]创建成功！", LogConstant.OPERATE_TYPE_2, loginUser);
-            //初始化摄像头,订阅告警
+            // 同步摄像头
             bizCameraService.syncIvs1800Camera(entity);
         } catch (Exception e) {
             log.error(e.getMessage(), e);

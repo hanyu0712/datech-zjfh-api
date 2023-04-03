@@ -14,8 +14,6 @@ import com.datech.zjfh.api.common.ivs.GetSubDeviceList;
 import com.datech.zjfh.api.entity.BizCameraEntity;
 import com.datech.zjfh.api.entity.BizIvsEntity;
 import com.datech.zjfh.api.mapper.BizCameraMapper;
-import com.datech.zjfh.api.util.LogUtil;
-import com.datech.zjfh.api.util.RedisUtil;
 import com.datech.zjfh.api.vo.BizCameraCodeVo;
 import com.datech.zjfh.api.vo.SysOrgTreeVo;
 import lombok.extern.slf4j.Slf4j;
@@ -38,10 +36,6 @@ import java.util.stream.Collectors;
 public class BizCameraServiceImpl extends ServiceImpl<BizCameraMapper, BizCameraEntity> implements PageService<BizCameraEntity> {
     @Value("${alarmServer.receiveAddr}")
     public String receiveAddr;
-    @Resource
-    private LogUtil logUtil;
-    @Resource
-    private RedisUtil redisUtil;
     @Autowired
     private static RestTemplate restTemplate;
     @Resource
@@ -171,26 +165,6 @@ public class BizCameraServiceImpl extends ServiceImpl<BizCameraMapper, BizCamera
      * @return 订阅ID
      */
     public int addIntelligentData(BizCameraEntity camera, BizIvsEntity ivs) {
-//        HashMap params = new HashMap();
-//        HashMap subscribeListObject = new HashMap();
-//        List subscribeObject = new ArrayList();
-//        HashMap body = new HashMap();
-//        // 订阅类别, 可同时带多个类别(必填)
-//        params.put("SubscribeDetail", "0");
-//
-//        // 告警信息接收地址，只支持HTTPS URL, 只支持IP，不支持域名。取值范围：数字或字符，字节数不超过512(必填)
-//        params.put("ReceiveAddr", receiveAddr);
-//        // 设备编码类型(默认为0)：0-平台编码 1-互联编码。(非必填)
-//        params.put("CodeType", 0);
-//        // 回调结果是否需要图片（base64编码）。0-不要图(默认) 1-要全景图 2-要抠图或特写图 3-要全景图和抠图或特写图
-//        params.put("ResultImgType", 3);
-//
-//        subscribeObject.add(params);
-//        subscribeListObject.put("SubscribeObject", subscribeObject);
-//        //将完整请求参数放入body
-//        body.put("SubscribeListObject", subscribeListObject);
-//        // 订阅资源路径。支持批量和单个订阅(必填)
-//        params.put("ResourceURI", camera.getCode());
         String addResult = AddIntelligentData.sendRequest(restTemplate, "https://" + ivs.getIp() + ":18531", ivs.getToken(), camera.getCode(), receiveAddr);
         log.info("订阅结果：{}", addResult);
         IvsAddIntelligentDataResult ivsResultList = JSONObject.parseObject(addResult, IvsAddIntelligentDataResult.class);
