@@ -99,7 +99,7 @@ public class Login {
     }
 
 
-    public static void main(String[] args) throws NoSuchAlgorithmException, KeyManagementException {
+    public static void main(String[] args) {
         //请求路径
         String url = "https://127.0.0.1:9026/ivs/callback";
 //        String url = "https://127.0.0.1:8082/loginInfo/login/v1.0";

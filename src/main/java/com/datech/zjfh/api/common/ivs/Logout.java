@@ -73,7 +73,7 @@ public class Logout {
         return result;
     }
 
-    public static void main(String[] args) throws NoSuchAlgorithmException, KeyManagementException {
+    public static void main(String[] args) {
         //请求路径
         String url = "https://51.32.10.14:18531/users/logout";
         // 调用login接口获取

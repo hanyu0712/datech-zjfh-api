@@ -61,7 +61,7 @@ public class NceRunner implements ApplicationRunner {
     private BizIvsServiceImpl bizIvsService;
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         log.info("======NceRunner start");
         List<BizNceEntity> nceList = bizNceService.list();
         if (CollectionUtils.isNotEmpty(nceList)) {
@@ -142,10 +142,10 @@ public class NceRunner implements ApplicationRunner {
         try {
             SSLContext sslcontext = SSLContext.getInstance("TLS");
             sslcontext.init(null, new TrustManager[]{new X509TrustManager() {
-                public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+                public void checkClientTrusted(X509Certificate[] arg0, String arg1) {
                 }
 
-                public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
+                public void checkServerTrusted(X509Certificate[] arg0, String arg1) {
                 }
 
                 public X509Certificate[] getAcceptedIssuers() {

@@ -9,7 +9,6 @@
 
 package com.datech.zjfh.api.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -17,11 +16,18 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.datech.zjfh.api.common.bean.LoginUser;
 import com.datech.zjfh.api.common.bean.Result;
 import com.datech.zjfh.api.common.consts.LogConstant;
-import com.datech.zjfh.api.common.consts.WebConstant;
-import com.datech.zjfh.api.entity.*;
+import com.datech.zjfh.api.entity.BizAlarmEntity;
+import com.datech.zjfh.api.entity.BizCameraEntity;
+import com.datech.zjfh.api.entity.BizLineEntity;
 import com.datech.zjfh.api.query.BizAlarmDealQuery;
-import com.datech.zjfh.api.service.*;
-import com.datech.zjfh.api.util.*;
+import com.datech.zjfh.api.service.BizAlarmServiceImpl;
+import com.datech.zjfh.api.service.BizCameraServiceImpl;
+import com.datech.zjfh.api.service.BizLineServiceImpl;
+import com.datech.zjfh.api.service.SysOrgServiceImpl;
+import com.datech.zjfh.api.util.BeanCopierUtil;
+import com.datech.zjfh.api.util.LogUtil;
+import com.datech.zjfh.api.util.LoginUtil;
+import com.datech.zjfh.api.util.RedisUtil;
 import com.datech.zjfh.api.vo.BizAlarmVo;
 import com.datech.zjfh.api.vo.BizCameraVo;
 import lombok.extern.slf4j.Slf4j;
@@ -226,7 +232,7 @@ public class BizAlarmController {
         LambdaUpdateWrapper<BizAlarmEntity> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.in(BizAlarmEntity::getId, deal.getIdList());
         BizAlarmEntity entity = new BizAlarmEntity();
-        entity.setOpinions(entity.getOpinions());
+        entity.setOpinions(deal.getOpinions());
         entity.setFalseAlarm(entity.getFalseAlarm() == null ? 0 : entity.getFalseAlarm());
         entity.setState(state);
         entity.setClearTime(new Date());

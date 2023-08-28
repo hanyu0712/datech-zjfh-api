@@ -69,7 +69,7 @@ public class KeepAlive {
         return result;
     }
 
-    public static void main(String[] args) throws NoSuchAlgorithmException, KeyManagementException {
+    public static void main(String[] args) {
         // 请求路径
         String url = "https://90.56.29.5:18531/common/keepAlive";
         // 调用login接口获取

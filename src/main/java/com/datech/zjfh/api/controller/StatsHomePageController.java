@@ -13,12 +13,15 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.datech.zjfh.api.common.bean.Result;
-import com.datech.zjfh.api.entity.*;
+import com.datech.zjfh.api.entity.BizAlarmEntity;
+import com.datech.zjfh.api.entity.BizCameraEntity;
 import com.datech.zjfh.api.service.*;
 import com.datech.zjfh.api.vo.StatsAlarmStateVo;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.CollectionUtils;
-import org.springframework.web.bind.annotation.*;
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
@@ -45,19 +48,25 @@ public class StatsHomePageController {
         Map<String, Object> result = new HashMap<>();
         int cameraOnNum = 0;
         int cameraOffNum = 0;
-        List<Integer> ivsIdList = bizIvsService.getIvsList(lineId);
-        if (CollectionUtils.isNotEmpty(ivsIdList)) {
+        if (lineId != null) {
+            List<Integer> ivsIdList = bizIvsService.getIvsList(lineId);
+            if (CollectionUtils.isNotEmpty(ivsIdList)) {
+                //摄像头数量
+                LambdaQueryWrapper<BizCameraEntity> queryCamera = Wrappers.lambdaQuery();
+                queryCamera.in(BizCameraEntity::getIvsId, ivsIdList);
+                queryCamera.ne(BizCameraEntity::getStatus, 0);
+                cameraOnNum = bizCameraService.count(queryCamera);
+                queryCamera = Wrappers.lambdaQuery();
+                queryCamera.in(BizCameraEntity::getIvsId, ivsIdList);
+                queryCamera.eq(BizCameraEntity::getStatus, 0);
+                cameraOffNum = bizCameraService.count(queryCamera);
+            }
+        } else {
             //摄像头数量
             LambdaQueryWrapper<BizCameraEntity> queryCamera = Wrappers.lambdaQuery();
-            if (lineId != null) {
-                queryCamera.in(BizCameraEntity::getIvsId, ivsIdList);
-            }
             queryCamera.ne(BizCameraEntity::getStatus, 0);
             cameraOnNum = bizCameraService.count(queryCamera);
             queryCamera = Wrappers.lambdaQuery();
-            if (lineId != null) {
-                queryCamera.in(BizCameraEntity::getIvsId, ivsIdList);
-            }
             queryCamera.eq(BizCameraEntity::getStatus, 0);
             cameraOffNum = bizCameraService.count(queryCamera);
         }

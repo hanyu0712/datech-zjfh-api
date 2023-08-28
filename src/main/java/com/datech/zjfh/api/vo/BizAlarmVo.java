@@ -13,6 +13,7 @@ public class BizAlarmVo implements Serializable {
     private String lineName;
     private String alarmName;
     private String imageId;
+    private String opinions;
     private Date triggerTime;
     private Integer state;
     private int level;
