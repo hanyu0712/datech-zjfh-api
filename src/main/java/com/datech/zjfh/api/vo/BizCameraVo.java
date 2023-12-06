@@ -22,6 +22,7 @@ public class BizCameraVo implements Serializable {
     private String lineName;
     private Integer status;
     private Integer subsEnable;
-    private Integer lineId;
+//    private Integer lineId;
+    private Integer ivsId;
     private Integer alarmType;
 }

@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -46,6 +46,13 @@ public class BizAlarmConfigServiceImpl extends ServiceImpl<BizAlarmConfigMapper,
     public Result<Object> addBatch(BizAlarmConfigQuery param) {
         if (param == null || CollectionUtils.isEmpty(param.getIdList())) {
             return Result.error("必填参数为空");
+        }
+        if (CollectionUtils.isNotEmpty(param.getTimeList())) {
+            for (BizAlarmConfigTime configTime : param.getTimeList()) {
+                if (StringUtils.isBlank(configTime.getBeginTime()) && StringUtils.isBlank(configTime.getEndTime())) {
+                    return Result.error("非布防时间参数有空值");
+                }
+            }
         }
         if (!checkParamTime(param.getTimeList())) {
             return Result.error("非布防时间参数冲突");
@@ -142,7 +149,8 @@ public class BizAlarmConfigServiceImpl extends ServiceImpl<BizAlarmConfigMapper,
         // 是否需要订阅告警
         boolean subscribe = true;
         //当前时间
-        String nowTime = getNowTime();
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+        String nowTime = format.format(new Date());
         for (BizAlarmConfigTime time : timeList) {
             BizAlarmConfigEntity entity = new BizAlarmConfigEntity();
             entity.setCameraId(camera.getId());
@@ -159,16 +167,16 @@ public class BizAlarmConfigServiceImpl extends ServiceImpl<BizAlarmConfigMapper,
         return subscribe;
     }
 
-    public String getNowTime() {
-        StringBuilder nowTime = new StringBuilder();
-        Calendar today = Calendar.getInstance();
-        nowTime.append(today.get(Calendar.HOUR_OF_DAY));
-        nowTime.append(":");
-        nowTime.append(today.get(Calendar.MINUTE));
-        nowTime.append(":00");
-        log.info("nowTime:{}", nowTime);
-        return nowTime.toString();
-    }
+//    public String getNowTime() {
+//        StringBuilder nowTime = new StringBuilder();
+//        Calendar today = Calendar.getInstance();
+//        nowTime.append(today.get(Calendar.HOUR_OF_DAY));
+//        nowTime.append(":");
+//        nowTime.append(today.get(Calendar.MINUTE));
+//        nowTime.append(":00");
+//        log.info("nowTime:{}", nowTime);
+//        return nowTime.toString();
+//    }
 
     public boolean checkParamTime(List<BizAlarmConfigTime> timeList) {
         if (CollectionUtils.isEmpty(timeList))

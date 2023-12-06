@@ -4,7 +4,6 @@ package com.datech.zjfh.api.config;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.datech.zjfh.api.common.ivs.Ptzcontrol;
 import com.datech.zjfh.api.common.nce.AddSubscription;
 import com.datech.zjfh.api.common.nce.DelSubscription;
@@ -20,18 +19,13 @@ import com.datech.zjfh.api.service.BizCameraServiceImpl;
 import com.datech.zjfh.api.service.BizIvsServiceImpl;
 import com.datech.zjfh.api.service.BizNceServiceImpl;
 import com.datech.zjfh.api.service.BizPresetServiceImpl;
-import com.datech.zjfh.api.util.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.glassfish.jersey.media.sse.EventInput;
 import org.glassfish.jersey.media.sse.InboundEvent;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.net.ssl.SSLContext;
@@ -40,15 +34,14 @@ import javax.net.ssl.X509TrustManager;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
-import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Component
+//@Component
 @Slf4j
-@Order(value = 2)
+//@Order(value = 2)
 public class NceRunner implements ApplicationRunner {
 
     @Resource

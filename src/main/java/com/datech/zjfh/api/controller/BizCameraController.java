@@ -48,9 +48,12 @@ public class BizCameraController {
 
     @GetMapping(value = "/camera/init")
     public Result<Object> cameraInit(Integer ivsId) {
-        log.info("------------  camera init in , ivsId:{} ...---------", ivsId);
+        log.info("------------  camera init in  ---------------");
         try {
-            bizCameraService.syncIvs1800Camera(bizIvsService.getById(ivsId));
+            List<BizIvsEntity> ivsEntityList = bizIvsService.list();
+            for (BizIvsEntity ivs: ivsEntityList) {
+                bizCameraService.syncIvs1800Camera(ivs);
+            }
             return Result.OK();
         } catch (Exception e) {
             log.error(e.getMessage(), e);

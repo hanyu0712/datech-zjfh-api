@@ -20,7 +20,6 @@ public class IVS1800Runner implements ApplicationRunner {
     @Resource
     private BizIvsServiceImpl bizIvsService;
 
-
     @Override
     public void run(ApplicationArguments args) {
         List<BizIvsEntity> ivsList = bizIvsService.list();

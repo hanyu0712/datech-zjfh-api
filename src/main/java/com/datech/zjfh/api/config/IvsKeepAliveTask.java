@@ -21,7 +21,7 @@ public class IvsKeepAliveTask {
     @Resource
     private BizIvsServiceImpl bizIvsService;
 
-    @Scheduled(cron = "1 0/5 * * * ?")
+    @Scheduled(cron = "1 0/2 * * * ?")
     public void configureTasks() {
         log.info("====IvsKeepAliveTask");
         List<BizIvsEntity> ivsList = bizIvsService.list();
@@ -32,13 +32,18 @@ public class IvsKeepAliveTask {
                     bizIvsService.ivsActivate(ivs);
                 } else {
                     String result = KeepAlive.keepAlive("https://" + ivs.getIp() + ":18531", ivs.getToken());
-                    JSONObject a = JSONObject.parseObject(result);
-                    if (Integer.parseInt(a.get("resultCode").toString()) != 0) {
+                    if (StringUtils.isNotBlank(result)) {
+                        JSONObject a = JSONObject.parseObject(result);
+                        if (Integer.parseInt(a.get("resultCode").toString()) != 0) {
+                            //激活ivs
+                            bizIvsService.ivsActivate(ivs);
+                        } else {
+                            ivs.setOnLine(1);   //在线
+                            bizIvsService.updateById(ivs);
+                        }
+                    } else {
                         //激活ivs
                         bizIvsService.ivsActivate(ivs);
-                    } else {
-                        ivs.setOnLine(1);   //在线
-                        bizIvsService.updateById(ivs);
                     }
                 }
             } catch (Exception e) {

@@ -40,7 +40,9 @@ public class BizIvsServiceImpl extends ServiceImpl<BizIvsMapper, BizIvsEntity> i
     //激活ivs
     public void ivsActivate(BizIvsEntity ivs) {
         //登录
+        log.info("ivs1800 login ip:{}, account :{}, passowrd :{}", ivs.getIp(), ivs.getAccount(), ivs.getPassword());
         String token = Login.loginAndGetToken("https://" + ivs.getIp() + ":18531", ivs.getAccount(), ivs.getPassword());
+        log.info("ivs1800 return : {}", token);
         if (StringUtils.isNotBlank(token)) {
             ivs.setToken(token);
             ivs.setOnLine(1);   //在线

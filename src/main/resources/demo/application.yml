@@ -49,14 +49,14 @@ client:
   url:  # http://172.10.60.31/upgrade/v2.0/Datarnd.msi
   isForce: 0
 
-ivs1800:
-  url: https://172.10.60.6:18531
-  username: datarnd
-  password: Datarnd@234
+#ivs1800:
+#  url: https://172.10.60.6:18531
+#  username: datarnd
+#  password: Datarnd@234
 
 
 alarmServer:
-  receiveAddr: https://172.10.60.31:9026/ivs/callback
+  receiveAddr: https://172.10.60.15:9026/ivs/callback
 
 projectName: 南宁市铁路局
 tokenExpireTime: 1200

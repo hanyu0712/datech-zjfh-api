@@ -34,7 +34,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -120,7 +122,7 @@ public class BizAlarmConfigController {
             configQuery.eq(BizAlarmConfigEntity::getState, 0);
             List <BizAlarmConfigEntity> configList = bizAlarmConfigService.list(configQuery);
             //当前时间
-            String nowTime = bizAlarmConfigService.getNowTime();
+            String nowTime = new SimpleDateFormat("HH:mm:ss").format(new Date());
             for (BizAlarmConfigEntity config : configList){
                 if ((nowTime.compareTo(config.getBeginTime()) >= 0 && nowTime.compareTo(config.getEndTime()) < 0)) {
                     return Result.error("操作失败，当前时间为非布防时间段");

@@ -2,14 +2,15 @@ package com.datech.zjfh.api.common.ivs;
 
 //通过阅读本文，您可以了解java调用ivs1800北向登录保活接口的方式和流程。
 
-import org.apache.http.client.ClientProtocolException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 
-import java.io.*;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import static com.datech.zjfh.api.common.ivs.CreateSSLClientDefault.createSSLClientDefault;
 
@@ -17,6 +18,7 @@ import static com.datech.zjfh.api.common.ivs.CreateSSLClientDefault.createSSLCli
  * 调用保活接口
  */
 
+@Slf4j
 public class KeepAlive {
 
     /**
@@ -52,7 +54,7 @@ public class KeepAlive {
                 sb.append(line);
             }
             result = sb.toString();
-            System.out.println(result);
+            log.info(result);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
